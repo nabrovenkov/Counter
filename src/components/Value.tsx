@@ -1,30 +1,41 @@
 import { ChangeEvent, useState } from 'react';
 import { styled } from 'styled-components';
 
-type ValueType = {
+type ValuePropsType = {
 	name: string;
-	// value: any;
-	getValue: (event: any) => void;
+	getValue: (name: string, value: string) => void;
+	value: string;
 };
 
-export const Value = ({ name, getValue }: ValueType) => {
+export const Value = ({ name, getValue, value }: ValuePropsType) => {
 	const [error, setError] = useState('');
-	const [value, setValue] = useState('');
+
+	let resultingValue = Number(value);
 
 	const getValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-		const checkValue = Number(event.currentTarget.value);
-		if (Number.isNaN(checkValue) || checkValue <= 0) {
+		const value = event.currentTarget.value;
+
+		getValue(name, value);
+	};
+
+	const receivedValue = () => {
+
+		if (resultingValue < 0) {
 			setError('red');
 		} else {
 			setError('white');
 		}
-		getValue(checkValue);
 	};
 
 	return (
 		<Wrapper>
-			<ValueText>{name}</ValueText>
-			<SetCounter onChange={getValueHandler} error={error} />
+			<ValueText>{name} Value: </ValueText>
+			<SetCounter
+				type='number'
+				value={value}
+				onChange={getValueHandler}
+				error={error}
+			/>
 		</Wrapper>
 	);
 };

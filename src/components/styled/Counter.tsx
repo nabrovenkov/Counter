@@ -9,5 +9,4 @@ export const Counter = styled.div`
 	border-color: #5b77ac;
 	box-sizing: border-box;
 	padding: 20px;
-  /* position: relative; */
 `;
