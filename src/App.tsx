@@ -38,7 +38,7 @@ function App() {
 	const [incorrectValue, setIncorrectValue] = useState(false);
 	const [reachingMaxValue, setReachingMaxValue] = useState(false);
 	const [incDisable, setIncDisable] = useState<boolean>(false);
-	const [setButtonDisable, setSetButtonDisable] = useState(false)
+	const [setButtonDisable, setSetButtonDisable] = useState(false);
 
 	useEffect(() => {
 		localStorage.setItem('setValue', JSON.stringify(setValue));
@@ -60,6 +60,10 @@ function App() {
 
 	// Нужно сделать проверку для setIncorrectValue при обновлении страницы
 	// Попробовать сделать отдельную функцию проверки
+	// Нужно сделать проверку для setIncorrectValue при обновлении страницы
+	// Попробовать сделать отдельную функцию проверки
+	// Нужно сделать проверку для setIncorrectValue при обновлении страницы
+	// Попробовать сделать отдельную функцию проверки
 	const getValue = (name: string, newValue: number) => {
 		if (name === 'Max') {
 			setMaxValue(newValue);
@@ -75,14 +79,14 @@ function App() {
 			} else {
 				setIncorrectValue(false);
 			}
-		};
+		}
 		setSetButtonDisable(false);
 	};
 
 	const settingValue = () => {
 		setSetValue(startValue);
 		setReachingMaxValue(false);
-		setSetButtonDisable(true)
+		setSetButtonDisable(true);
 	};
 
 	const resetValue = () => {
