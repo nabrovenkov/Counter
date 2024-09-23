@@ -3,28 +3,16 @@ import { styled } from 'styled-components';
 
 type ValuePropsType = {
 	name: string;
-	getValue: (name: string, value: string) => void;
-	value: string;
+	getValue: (name: string, value: number) => void;
+	incorrectValue: boolean;
+	value: number;
 };
 
-export const Value = ({ name, getValue, value }: ValuePropsType) => {
-	const [error, setError] = useState('');
+export const Value = ({ name, getValue, incorrectValue, value }: ValuePropsType) => {
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const newValue = +event.currentTarget.value;
 
-	let resultingValue = Number(value);
-
-	const getValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-		const value = event.currentTarget.value;
-
-		getValue(name, value);
-	};
-
-	const receivedValue = () => {
-
-		if (resultingValue < 0) {
-			setError('red');
-		} else {
-			setError('white');
-		}
+		getValue(name, newValue);
 	};
 
 	return (
@@ -33,8 +21,8 @@ export const Value = ({ name, getValue, value }: ValuePropsType) => {
 			<SetCounter
 				type='number'
 				value={value}
-				onChange={getValueHandler}
-				error={error}
+				onChange={handleInputChange}
+				$showingError={incorrectValue}
 			/>
 		</Wrapper>
 	);
@@ -53,16 +41,16 @@ const ValueText = styled.div`
 	font-weight: 600;
 `;
 
-const SetCounter = styled.input<{ error: any }>`
+const SetCounter = styled.input<{ $showingError: boolean }>`
 	max-width: 150px;
 	width: 100%;
 	min-height: 30px;
 
-	background-color: ${(props) => props.error};
+	background-color: ${(props) => props.$showingError ? 'red' : 'white'};
 	border: 5px solid #5b77ac;
 	border-radius: 10px;
 
 	line-height: 30px;
 	text-align: center;
-	font-weight: 600;
+		font-weight: 600;
 `;

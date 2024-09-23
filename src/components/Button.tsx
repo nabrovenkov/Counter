@@ -4,14 +4,30 @@ import { styled } from 'styled-components';
 type ButtonType = {
 	name: string;
 	onClick: (name: string) => void;
+	incorrectValue?: boolean;
+	incDisable?: boolean;
+	setButtonDisable?: boolean;
 };
 
-export const Button = ({ name, onClick }: ButtonType) => {
+export const Button = ({
+	name,
+	onClick,
+	incorrectValue,
+	incDisable,
+	setButtonDisable,
+}: ButtonType) => {
 	const onClickHandler = () => {
 		onClick(name);
 	};
 
-	return <ButtonStyled onClick={onClickHandler}>{name}</ButtonStyled>;
+	return (
+		<ButtonStyled
+			onClick={onClickHandler}
+			disabled={incorrectValue || incDisable || setButtonDisable}
+		>
+			{name}
+		</ButtonStyled>
+	);
 };
 
 const ButtonStyled = styled.button`
