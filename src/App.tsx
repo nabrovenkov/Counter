@@ -58,6 +58,8 @@ function App() {
 		}
 	}, [setValue]);
 
+	// Нужно сделать проверку для setIncorrectValue при обновлении страницы
+	// Попробовать сделать отдельную функцию проверки
 	const getValue = (name: string, newValue: number) => {
 		if (name === 'Max') {
 			setMaxValue(newValue);
