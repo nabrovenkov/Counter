@@ -5,7 +5,6 @@ import { Counter } from './components/styled/Counter';
 import { ValueWrapper } from './components/styled/ValueWrapper';
 import { ButtonWrapper } from './components/styled/ButtonWrapper';
 import { Button } from './components/Button';
-import { Count } from './components/styled/Count';
 import { Value } from './components/Value';
 import { CountViewer } from './CountViewer';
 
@@ -19,14 +18,17 @@ export type Value = {
 };
 
 function App() {
+
 	const getLocalStorageValueByKey = (key: string) => {
-		return localStorage.getItem(key) !== null
-			? JSON.parse(localStorage.getItem(key) as string)
-			: 1;
+		const valueLocalStorage = localStorage.getItem(key) !== null
+			? JSON.parse((localStorage.getItem(key) as string))
+			: 0;
+		return valueLocalStorage
 	};
 
 	const [maxValue, setMaxValue] = useState(
-		getLocalStorageValueByKey('maxValue')
+		getLocalStorageValueByKey('maxValue'),
+		
 	);
 	const [startValue, setStartValue] = useState(
 		getLocalStorageValueByKey('startValue')
@@ -35,11 +37,14 @@ function App() {
 		getLocalStorageValueByKey('setValue')
 	);
 
-	const [incorrectValue, setIncorrectValue] = useState(false);
+	const startInCorrectValue = startValue < 0 || startValue >= maxValue || maxValue <= 0;
+	
+	const [incorrectValue, setIncorrectValue] = useState(startInCorrectValue);
 	const [reachingMaxValue, setReachingMaxValue] = useState(false);
-	const [incDisable, setIncDisable] = useState<boolean>(false);
 	const [setButtonDisable, setSetButtonDisable] = useState(false);
 
+	
+	
 	useEffect(() => {
 		localStorage.setItem('setValue', JSON.stringify(setValue));
 	}, [setValue]);
@@ -58,11 +63,11 @@ function App() {
 		}
 	}, [setValue]);
 
-
 	const getValue = (name: string, newValue: number) => {
+		// debugger
 		if (name === 'Max') {
 			setMaxValue(newValue);
-			if (newValue <= startValue) {
+			if (newValue <= startValue || newValue <= 0 || startValue < 0) {
 				setIncorrectValue(true);
 			} else {
 				setIncorrectValue(false);
@@ -135,8 +140,15 @@ function App() {
 							name={'Inc'}
 							onClick={incValue}
 							incDisable={reachingMaxValue}
+							incorrectValue={incorrectValue}
+							setButtonDisable={!setButtonDisable}
 						/>
-						<Button name={'Reset'} onClick={resetValue} />
+						<Button
+							name={'Reset'}
+							onClick={resetValue}
+							incorrectValue={incorrectValue}
+							setButtonDisable={!setButtonDisable}
+						/>
 					</ButtonWrapper>
 				</Counter>
 			</CounterWrapper>
